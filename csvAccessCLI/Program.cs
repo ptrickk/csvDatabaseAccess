@@ -1,4 +1,5 @@
-﻿using System;
+﻿using csvAccess.core.Models.Data.Columns;
+using System;
 
 namespace MyApp
 {
@@ -6,7 +7,10 @@ namespace MyApp
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            DataColumn dc = new DataColumn();
+            dc.DataType = typeof(string);
+
+            Console.WriteLine($"der typ ist {dc.DataType}");
         }
     }
 }
