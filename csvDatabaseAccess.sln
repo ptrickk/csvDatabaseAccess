@@ -5,7 +5,7 @@ VisualStudioVersion = 17.9.34723.18
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "csvAccessCLI", "csvAccessCLI\csvAccessCLI.csproj", "{D1261E08-5BDB-45F0-AB15-F703026294B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlWrapper", "SqlWrapper\SqlWrapper.csproj", "{F439E81A-7C33-4F4C-9A9E-8F4C1550B69C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostgreSqlWrapper", "SqlWrapper\PostgreSqlWrapper.csproj", "{F439E81A-7C33-4F4C-9A9E-8F4C1550B69C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
