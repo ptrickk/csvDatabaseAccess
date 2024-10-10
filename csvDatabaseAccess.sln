@@ -3,11 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34723.18
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "csvAccessCLI", "csvAccessCLI\csvAccessCLI.csproj", "{D1261E08-5BDB-45F0-AB15-F703026294B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CsvAccess.CLI", "CsvAccess.CLI\CsvAccess.CLI.csproj", "{D1261E08-5BDB-45F0-AB15-F703026294B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostgreSqlWrapper", "SqlWrapper\PostgreSqlWrapper.csproj", "{F439E81A-7C33-4F4C-9A9E-8F4C1550B69C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PostgreSqlWrapper", "PostgreSqlWrapper\PostgreSqlWrapper.csproj", "{F439E81A-7C33-4F4C-9A9E-8F4C1550B69C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "csvAccess.core", "csvAccess.core\csvAccess.core.csproj", "{A7E2991C-92FE-451F-9928-0CD03E685B84}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CsvAccess.core", "CsvAccess.core\CsvAccess.core.csproj", "{A7E2991C-92FE-451F-9928-0CD03E685B84}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DatabaseWrapper", "DatabaseWrapper", "{B027A413-AB42-454A-8547-A4DC48EBD745}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{B8B510BA-9373-4736-B645-56927BE2B743}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,6 +34,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D1261E08-5BDB-45F0-AB15-F703026294B6} = {B8B510BA-9373-4736-B645-56927BE2B743}
+		{F439E81A-7C33-4F4C-9A9E-8F4C1550B69C} = {B027A413-AB42-454A-8547-A4DC48EBD745}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {943260BF-21AF-4DEE-8BE4-27B9C15F824F}
