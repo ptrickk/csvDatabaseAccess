@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace csvAccess.core.Models.Data.Columns
+namespace CsvAccess.core.Models.Data.Columns
 {
     public struct DataColumn
     {

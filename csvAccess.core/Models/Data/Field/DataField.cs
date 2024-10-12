@@ -1,6 +1,6 @@
-﻿using csvAccess.core.Models.Data.Columns;
+﻿using CsvAccess.core.Models.Data.Columns;
 
-namespace csvAccess.core.Models.Data.Field
+namespace CsvAccess.core.Models.Data.Field
 {
     public abstract class DataField<T> : IDataField
     {

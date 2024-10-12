@@ -1,6 +1,6 @@
-﻿using csvAccess.core.Models.Data.Field;
+﻿using CsvAccess.core.Models.Data.Field;
 
-namespace csvAccess.core.Models.Data.Set
+namespace CsvAccess.core.Models.Data.Set
 {
     public class DataSet
     {

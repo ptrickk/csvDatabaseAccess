@@ -1,4 +1,4 @@
-﻿namespace csvAccess.core.Models.Data.Field
+﻿namespace CsvAccess.core.Models.Data.Field
 {
     public class TextField : DataField<string>
     {

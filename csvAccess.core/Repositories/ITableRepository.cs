@@ -1,4 +1,4 @@
-﻿using csvAccess.core.Models.Data.Table;
+﻿using CsvAccess.core.Models.Data.Table;
 using CsvAccess.core.Models.Database;
 using System;
 using System.Collections.Generic;
