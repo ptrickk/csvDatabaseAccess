@@ -1,4 +1,4 @@
-﻿using csvAccess.core.Models.Data.Columns;
+﻿using CsvAccess.core.Models.Data.Columns;
 using PostgreSqlWrapper;
 using System;
 
