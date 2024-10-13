@@ -10,6 +10,6 @@ namespace PostgreSqlWrapper.Table.Get
 {
     public interface ITableRepository
     {
-        public DataTable GetTable(ICredentials credentials, string tableName);
+        public DataTable GetTable(Credentials credentials, string tableName);
     }
 }

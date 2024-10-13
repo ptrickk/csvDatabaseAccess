@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CsvAccess.core.Models.Database
 {
-    public interface ICredentials
+    public interface Credentials
     {
     }
 }

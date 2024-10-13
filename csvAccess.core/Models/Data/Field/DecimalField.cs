@@ -1,8 +1,10 @@
-﻿namespace CsvAccess.core.Models.Data.Field
+﻿using CsvAccess.core.Models.Data.Columns;
+
+namespace CsvAccess.core.Models.Data.Field
 {
-    internal class DecimalField : DataField<double>
+    public class DecimalField : DataField<double>
     {
-        public DecimalField(double value) : base(value)
+        public DecimalField(double value, DataColumn column) : base(value, column)
         {
         }
     }

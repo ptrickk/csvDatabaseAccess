@@ -13,7 +13,7 @@ namespace PostgreSqlWrapper.Connection
                 return PostgresConnectionResult.CreateFailure("Connection failed");
             }
 
-            return PostgresConnectionResult.CreateSuccess(new PostgresConnection(connection));
+            return PostgresConnectionResult.CreateSuccess(new PostgresSession(connection, options.Credentials));
         }
 
         private bool TryOpenConnection(NpgsqlConnection connection)

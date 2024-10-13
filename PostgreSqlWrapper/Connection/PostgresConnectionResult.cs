@@ -11,14 +11,14 @@ namespace PostgreSqlWrapper.Connection
     {
         public bool Succeeded { get; set; }
         public string Message { get; set; }
-        public PostgresConnection Connection { get; set; }
+        public PostgresSession Session { get; set; }
 
-        public static PostgresConnectionResult CreateSuccess(PostgresConnection connection)
+        public static PostgresConnectionResult CreateSuccess(PostgresSession connection)
         {
             return new PostgresConnectionResult
             {
                 Succeeded = true,
-                Connection = connection
+                Session = connection
             };
         }
 

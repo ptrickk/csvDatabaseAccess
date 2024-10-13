@@ -7,11 +7,15 @@ using System.Threading.Tasks;
 
 namespace CsvAccess.core.Models.Data.Columns
 {
-    public interface DataColumn
+    public class NumberColumn : DataColumn
     {
-        public Type DataType { get; }  
+        public Type DataType => typeof(int);
+
         public string ColumnName { get; init; }
 
-        public IDataField GetField(object value);
+        public IDataField GetField(object value)
+        {
+            return new NumberField(Convert.ToInt32(value), this);
+        }
     }
 }

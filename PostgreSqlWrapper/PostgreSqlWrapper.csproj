@@ -12,10 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\csvAccess.core\CsvAccess.core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Table\Data\" />
+    <ProjectReference Include="..\SqlBuilder\SqlBuilder.csproj" />
   </ItemGroup>
 
 </Project>

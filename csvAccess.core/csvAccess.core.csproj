@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Table\Data\Csv\Convert\From\" />
+    <Folder Include="Table\Data\Csv\Validate\" />
+  </ItemGroup>
+
 </Project>

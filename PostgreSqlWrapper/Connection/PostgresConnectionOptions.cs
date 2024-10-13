@@ -2,8 +2,8 @@
 {
     internal class PostgresConnectionOptions
     {
-        public Credentials Credentials { get; set; }
+        public PostgresCredentials Credentials { get; set; }
 
-        public PostgresConnectionOptions(Credentials credentials) {  Credentials = credentials; }
+        public PostgresConnectionOptions(PostgresCredentials credentials) {  Credentials = credentials; }
     }
 }

@@ -9,7 +9,7 @@ namespace CsvAccess.core.Models.Data.Field
 {
     public interface IDataField
     {
-        public Type DataType { get; }
+        public object Value { get; }
         public DataColumn Column { get; }
     }
 }

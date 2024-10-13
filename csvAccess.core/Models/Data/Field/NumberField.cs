@@ -9,7 +9,7 @@ namespace CsvAccess.core.Models.Data.Field
 {
     public class NumberField : DataField<int>
     {
-        public NumberField(int value) : base(value)
+        public NumberField(int value, DataColumn column) : base(value, column)
         {
         }
     }

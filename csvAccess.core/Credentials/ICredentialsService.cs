@@ -9,6 +9,6 @@ namespace CsvAccess.core.Credentials
 {
     public interface ICredentialsService
     {
-        public ICredentials GetCredentials(string filepath);
+        public Models.Database.Credentials GetCredentials(string filepath);
     }
 }

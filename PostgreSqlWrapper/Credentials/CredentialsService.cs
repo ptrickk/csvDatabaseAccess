@@ -9,7 +9,7 @@ namespace CsvAccess.core.Credentials
 {
     internal class CredentialsService : ICredentialsService
     {
-        public ICredentials GetCredentials(string filepath)
+        public Models.Database.Credentials GetCredentials(string filepath)
         {
             if (!File.Exists(filepath))
             {
@@ -27,6 +27,7 @@ namespace CsvAccess.core.Credentials
         private const string HOST_KEY = "host";
         private const string PORT_KEY = "port";
         private const string DATABASE_KEY = "db";
+        private const string SCHEMA_KEY = "schema";
 
         private Dictionary<string, string> ExtractCredentialsFromOutput(string fileOutput)
         {
@@ -48,6 +49,7 @@ namespace CsvAccess.core.Credentials
                     case HOST_KEY:
                     case PORT_KEY:
                     case DATABASE_KEY:
+                    case SCHEMA_KEY:
                         valueByCredentials.Add(key, value);break;
                     default:
                         break;
@@ -57,15 +59,16 @@ namespace CsvAccess.core.Credentials
             return valueByCredentials;
         }
 
-        private PostgreSqlWrapper.Credentials GetCredentialsFromExtraction(Dictionary<string, string> extraction)
+        private PostgreSqlWrapper.PostgresCredentials GetCredentialsFromExtraction(Dictionary<string, string> extraction)
         {
-            return new PostgreSqlWrapper.Credentials()
+            return new PostgreSqlWrapper.PostgresCredentials()
             {
                 Password = extraction[PASSWORD_KEY],
                 Username = extraction[USERNAME_KEY],
                 Host = extraction[HOST_KEY],
                 Port = extraction[PORT_KEY],
                 Database = extraction[DATABASE_KEY],
+                Schema = extraction[SCHEMA_KEY],
             };
         }
     }
