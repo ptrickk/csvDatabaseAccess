@@ -1,5 +1,5 @@
 ﻿using CsvAccess.core.Models.Data.Columns;
-using CsvAccess.core.Table.Columns.Get;
+using CsvAccess.core.Table.Columns.Get.ByTable;
 using Npgsql;
 using PostgreSqlWrapper.Connection;
 using SqlBuilder;

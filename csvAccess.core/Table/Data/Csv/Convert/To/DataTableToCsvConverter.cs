@@ -6,15 +6,12 @@ namespace CsvAccess.core.Table.Data.Csv.Convert.To
 {
     public class DataTableToCsvConverter : IDataTableToCsvConverter
     {
-        private const char CSV_COLUMN_SEPERATOR = ';';
-        private const string LINE_ENDING = "\r\n";
-
         public DataTableToCsvConverter() { }
 
         public string Convert(IDataTable dataTable)
         {
             string csvTable = string.Empty;
-            csvTable += GetDoubleRowHeader(dataTable.Columns);
+            csvTable += GetSingleRowHeader(dataTable.Columns);
 
             foreach(var dataSet in dataTable.DataSets)
             {
@@ -23,9 +20,9 @@ namespace CsvAccess.core.Table.Data.Csv.Convert.To
                 foreach(var column in dataTable.Columns)
                 {
                     IDataField field = dataSet.Fields.First(field => field.Column.Equals(column));
-                    row += field.Value.ToString() + CSV_COLUMN_SEPERATOR;
+                    row += field.Value.ToString() + CsvConstants.COLUMN_SEPERATOR;
                 }
-                csvTable += row.Trim(CSV_COLUMN_SEPERATOR) + LINE_ENDING;
+                csvTable += row.Trim(CsvConstants.COLUMN_SEPERATOR) + CsvConstants.LINE_ENDING;
             }
             return csvTable.Trim();
         }
@@ -35,9 +32,9 @@ namespace CsvAccess.core.Table.Data.Csv.Convert.To
             string header = string.Empty;
             foreach (DataColumn column in columns)
             {
-                header += $"{column.ColumnName}[{column.DataType}]{CSV_COLUMN_SEPERATOR}";
+                header += $"{column.ColumnName}[{column.DataType}]{CsvConstants.COLUMN_SEPERATOR}";
             }
-            header = header.Trim(';') + LINE_ENDING;
+            header = header.Trim(';') + CsvConstants.LINE_ENDING;
 
             return header;
         }
@@ -48,11 +45,11 @@ namespace CsvAccess.core.Table.Data.Csv.Convert.To
             string columnNameRow = string.Empty;
             foreach (DataColumn column in columns)
             {
-                dataTypeRow += $"{column.DataType}{CSV_COLUMN_SEPERATOR}";
-                columnNameRow += $"{column.ColumnName}{CSV_COLUMN_SEPERATOR}";
+                dataTypeRow += $"{column.DataType}{CsvConstants.COLUMN_SEPERATOR}";
+                columnNameRow += $"{column.ColumnName}{CsvConstants.COLUMN_SEPERATOR}";
             }
-            string header = dataTypeRow.Trim(';') + LINE_ENDING;
-            header += columnNameRow.Trim(';') + LINE_ENDING;
+            string header = dataTypeRow.Trim(';') + CsvConstants.LINE_ENDING;
+            header += columnNameRow.Trim(';') + CsvConstants.LINE_ENDING;
 
             return header;
         }

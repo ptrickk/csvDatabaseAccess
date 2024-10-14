@@ -1,6 +1,6 @@
 ﻿using CsvAccess.core.Models.Data.Columns;
 
-namespace CsvAccess.core.Table.Columns.Get
+namespace CsvAccess.core.Table.Columns.Get.ByTable
 {
     public interface DataColumnService
     {
