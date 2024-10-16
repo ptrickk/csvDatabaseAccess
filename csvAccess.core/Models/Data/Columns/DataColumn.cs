@@ -12,6 +12,6 @@ namespace CsvAccess.core.Models.Data.Columns
         public Type DataType { get; }  
         public string ColumnName { get; init; }
 
-        public IDataField GetField(object value);
+        public DataField GetField(object value);
     }
 }

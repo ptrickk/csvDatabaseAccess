@@ -1,19 +1,26 @@
-﻿using Npgsql;
+﻿using CsvAccess.core.Models.Persistence;
+using Npgsql;
 
 namespace PostgreSqlWrapper.Connection
 {
-    internal class PostgresConnectionService
+    internal class PostgresConnectionService : ConnectionService
     {
-        public PostgresConnectionResult Connect(PostgresConnectionOptions options)
+        public dynamic Connect(dynamic connectionOptions)
         {
-            NpgsqlConnection connection = new NpgsqlConnection(options.Credentials.ConnectionString);
+            return Connect(connectionOptions);
+        }
+        
+        internal PostgresConnectionResult Connect(PostgresConnectionOptions options)
+        {
+            var credentials = PostgresCredentials.Convert(options.Credentials);
+            NpgsqlConnection connection = new NpgsqlConnection(credentials.ConnectionString);
 
             if(!TryOpenConnection(connection))
             {
                 return PostgresConnectionResult.CreateFailure("Connection failed");
             }
 
-            return PostgresConnectionResult.CreateSuccess(new PostgresSession(connection, options.Credentials));
+            return PostgresConnectionResult.CreateSuccess(new PostgresSession(connection, credentials));
         }
 
         private bool TryOpenConnection(NpgsqlConnection connection)

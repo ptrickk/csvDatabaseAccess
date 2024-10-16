@@ -1,15 +1,10 @@
-﻿using CsvAccess.core.Models.Database;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CsvAccess.core.Configuration;
 
 namespace CsvAccess.core.Credentials
 {
-    internal class CredentialsService : ICredentialsService
+    internal class PostgresCredentialsService : CredentialsService
     {
-        public Models.Database.Credentials GetCredentials(string filepath)
+        public Models.Persistence.Credentials GetCredentials(string filepath)
         {
             if (!File.Exists(filepath))
             {

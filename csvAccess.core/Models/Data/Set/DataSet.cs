@@ -4,7 +4,7 @@ namespace CsvAccess.core.Models.Data.Set
 {
     public class DataSet
     {
-        public IEnumerable<IDataField> Fields { get; set; }
+        public IEnumerable<DataField> Fields { get; set; }
 
         public DataSet() {  }
     }

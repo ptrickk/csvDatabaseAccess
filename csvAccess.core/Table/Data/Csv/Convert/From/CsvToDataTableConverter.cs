@@ -1,11 +1,8 @@
 ﻿using CsvAccess.core.Models.Data.Columns;
+using CsvAccess.core.Models.Data.Field;
+using CsvAccess.core.Models.Data.Set;
 using CsvAccess.core.Models.Data.Table;
 using CsvAccess.core.Table.Columns.Create.ByType;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CsvAccess.core.Table.Data.Csv.Convert.From
 {
@@ -14,21 +11,21 @@ namespace CsvAccess.core.Table.Data.Csv.Convert.From
         public DataTable? Convert(string csv)
         {
             string[] lines = csv.Split(CsvConstants.LINE_ENDING);
-
             if(lines == null  || lines.Length == 0)
             {
                 return null;
             }
 
-            string header = lines[0];
-
             DataTable? result = new DataTable();
+            string header = lines[0];
+            string[] content = lines[1..];
             result.Columns = GetColumnsFromHeader(header);
+            result.DataSets = GetDatasetsFromContent(content, result.Columns);
 
             return result;
         }
 
-        public IEnumerable<DataColumn> GetColumnsFromHeader(string header)
+        public List<DataColumn> GetColumnsFromHeader(string header)
         {
             string[] columnDefinitions = header.Split(CsvConstants.COLUMN_SEPERATOR);
             var columns = new List<DataColumn>();
@@ -50,6 +47,29 @@ namespace CsvAccess.core.Table.Data.Csv.Convert.From
                 columns.Add(typeConverter.CreateColumn(columnName, dataType));
             }
             return columns;
+        }
+
+        public List<DataSet> GetDatasetsFromContent(string[] content, IEnumerable<DataColumn> columns)
+        {
+            var dataSets = new List<DataSet>();
+            var columnsList = columns.ToList();
+            foreach (var line in content)
+            {
+                var dataFields = new List<DataField>();
+                string[] fields = line.Split(CsvConstants.COLUMN_SEPERATOR);
+                if(fields.Count() != columnsList.Count())
+                {
+                    throw new Exception("Number of fields doesnt match columns");
+                }
+
+                for(int i = 0; i < fields.Length; i++)
+                {
+                    dataFields.Add(columnsList[i].GetField(fields[i]));
+                }
+
+                dataSets.Add(new DataSet() { Fields = dataFields });
+            }
+            return dataSets;
         }
     }
 }

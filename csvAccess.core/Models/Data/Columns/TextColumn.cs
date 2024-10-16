@@ -14,7 +14,7 @@ namespace CsvAccess.core.Models.Data.Columns
 
         public string ColumnName { get; init; }
 
-        public IDataField GetField(object value)
+        public DataField GetField(object value)
         {
             return new TextField(Convert.ToString(value), this);
         }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CsvAccess.core.Models.Data.Field
 {
-    public class NumberField : DataField<int>
+    public class NumberField : DataFieldBase<int>
     {
         public NumberField(int value, DataColumn column) : base(value, column)
         {

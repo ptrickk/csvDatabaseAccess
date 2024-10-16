@@ -1,4 +1,5 @@
-﻿using Npgsql;
+﻿using CsvAccess.core.Models.Persistence;
+using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace PostgreSqlWrapper.Connection
 {
-    internal class PostgresConnectionResult
+    internal class PostgresConnectionResult : IPostgresConnectionResult
     {
         public bool Succeeded { get; set; }
         public string Message { get; set; }
-        public PostgresSession Session { get; set; }
+        public DatabaseSession Session { get; set; }
 
-        public static PostgresConnectionResult CreateSuccess(PostgresSession connection)
+        public static PostgresConnectionResult CreateSuccess(DatabaseSession connection)
         {
             return new PostgresConnectionResult
             {

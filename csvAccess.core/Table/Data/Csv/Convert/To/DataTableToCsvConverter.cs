@@ -19,7 +19,7 @@ namespace CsvAccess.core.Table.Data.Csv.Convert.To
 
                 foreach(var column in dataTable.Columns)
                 {
-                    IDataField field = dataSet.Fields.First(field => field.Column.Equals(column));
+                    DataField field = dataSet.Fields.First(field => field.Column.Equals(column));
                     row += field.Value.ToString() + CsvConstants.COLUMN_SEPERATOR;
                 }
                 csvTable += row.Trim(CsvConstants.COLUMN_SEPERATOR) + CsvConstants.LINE_ENDING;

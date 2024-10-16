@@ -1,10 +1,4 @@
-﻿using CsvAccess.core.Models.Database;
-using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CsvAccess.core.Models.Persistence;
 
 namespace PostgreSqlWrapper
 {
@@ -18,5 +12,10 @@ namespace PostgreSqlWrapper
         public string Schema { get; set; }
 
         public string ConnectionString => $"Host={Host};Port={Port};Database={Database};User Id={Username};Password={Password};";
+
+        internal static PostgresCredentials Convert(Credentials credentials)
+        {
+            return (PostgresCredentials) credentials;
+        }
     }
 }

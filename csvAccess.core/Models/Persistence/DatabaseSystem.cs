@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CsvAccess.core.Models.Database
+namespace CsvAccess.core.Models.Persistence
 {
-    public interface Credentials
+    public enum DatabaseSystem
     {
+        PostgreSql
     }
 }

@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="8.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\csvAccess.core\CsvAccess.core.csproj" />
     <ProjectReference Include="..\PostgreSqlWrapper\PostgreSqlWrapper.csproj" />
   </ItemGroup>

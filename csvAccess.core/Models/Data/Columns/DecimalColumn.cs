@@ -13,7 +13,7 @@ namespace CsvAccess.core.Models.Data.Columns
         public Type DataType { get => typeof(double); }
         public string ColumnName { get; init; }
 
-        public IDataField GetField(object value)
+        public DataField GetField(object value)
         {
             return new DecimalField(Convert.ToDouble(value), this);
         }

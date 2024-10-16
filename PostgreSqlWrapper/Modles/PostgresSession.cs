@@ -1,9 +1,6 @@
-﻿using CsvAccess.core.Models.Data.Columns;
-using CsvAccess.core.Models.Data.Table;
-using CsvAccess.core.Models.Database;
+﻿using CsvAccess.core.Models.Persistence;
 using Npgsql;
 using SqlBuilder;
-using System.Collections.Generic;
 
 namespace PostgreSqlWrapper.Connection
 {
@@ -30,6 +27,11 @@ namespace PostgreSqlWrapper.Connection
             NpgsqlCommand getTableColumnsCommand = new NpgsqlCommand(query.ToString(), _connection);
 
             return getTableColumnsCommand.ExecuteReader();
+        }
+
+        public dynamic ExecuteQuery(dynamic query)
+        {
+            return ExecuteQuery(query);
         }
     }
 }

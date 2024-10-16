@@ -1,4 +1,5 @@
 ﻿using CsvAccess.core.Models.Data.Columns;
+using CsvAccess.core.Models.Persistence;
 using CsvAccess.core.Table.Columns.Get.ByTable;
 using Npgsql;
 using PostgreSqlWrapper.Connection;
@@ -20,26 +21,20 @@ namespace PostgreSqlWrapper.Table.Columns
         private const string DOUBLE_FIELD_VALUE = "numeric";
         private const string STRING_FIELD_VALUE = "text";
 
-        private PostgresSession _session;
-
-        public PostgresDataColumnService(PostgresSession session)
-        {
-            _session = session;
-        }
-
         public DataColumn GetColumn(string columnName)
         {
             throw new NotImplementedException();
         }
 
-        internal IEnumerable<DataColumn> GetColumns(string tableName)
+        public IEnumerable<DataColumn> GetColumns(DatabaseSession session, string tableName)
         {
+            PostgresCredentials credentials = ((PostgresSession)session).Credentials;
             var columnQuery = Query.Create().Select.Fields([COLUMN_NAME_FIELD, DATA_TYPE_FIELD]).
                 From.Table(TableInSchema(INFORMATION_SCHEMA_NAME, COLUMNS_TABLE_NAME)).
-                Where.Field(TABLE_SCHEMA_FIELD).Is.Value(_session.Credentials.Schema).
+                Where.Field(TABLE_SCHEMA_FIELD).Is.Value(credentials.Schema).
             And.Field(TABLE_NAME_FIELD).Is.Value(tableName);
 
-            using NpgsqlDataReader reader = _session.ExecuteQuery(columnQuery);
+            using NpgsqlDataReader reader = session.ExecuteQuery(columnQuery);
 
             List<DataColumn> columns = new();
             while (reader.Read())
@@ -70,11 +65,6 @@ namespace PostgreSqlWrapper.Table.Columns
                 default:
                     throw new Exception($"Not supported datatype: {dataTypeField}");
             }
-        }
-
-        IEnumerable<DataColumn> DataColumnService.GetColumns(string tableName)
-        {
-            throw new NotImplementedException();
         }
     }
 }
