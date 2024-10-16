@@ -7,11 +7,6 @@ using CsvAccess.core.Table.Data;
 using PostgreSqlWrapper.Connection;
 using PostgreSqlWrapper.Table.Columns;
 using PostgreSqlWrapper.Table.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PostgreSqlWrapper.DependencyInjection
 {

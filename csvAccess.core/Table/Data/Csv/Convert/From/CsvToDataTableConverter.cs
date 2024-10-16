@@ -6,7 +6,7 @@ using CsvAccess.core.Table.Columns.Create.ByType;
 
 namespace CsvAccess.core.Table.Data.Csv.Convert.From
 {
-    public class CsvToDataTableConverter : ICsvToDataTableConverter
+    internal class CsvToDataTableConverter : ICsvToDataTableConverter
     {
         public DataTable? Convert(string csv)
         {

@@ -7,9 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Actions\Checkin\" />
     <Folder Include="Actions\Initialize\" />
-    <Folder Include="Table\Data\Checksum\" />
   </ItemGroup>
 
   <ItemGroup>

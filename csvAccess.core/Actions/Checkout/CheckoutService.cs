@@ -9,8 +9,6 @@ namespace CsvAccess.core.Actions.Checkout
 {
     public interface CheckoutService
     {
-        public DatabaseSession Session { get; }
-        public void RegisterSession(DatabaseSession session);
         public void CheckoutTable(string tableName, string destination);
     }
 }

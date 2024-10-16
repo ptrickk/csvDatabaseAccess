@@ -5,6 +5,7 @@ using CsvAccess.core.Configuration.Credentials;
 using CsvAccess.core.DependencyInjection;
 using CsvAccess.core.Models.Data.Columns;
 using CsvAccess.core.Models.Persistence;
+using CsvAccess.core.Session;
 using PostgreSqlWrapper;
 using PostgreSqlWrapper.Connection;
 using PostgreSqlWrapper.DependencyInjection;
@@ -14,14 +15,12 @@ namespace MyApp
 {
     internal class Program
     {
-        public static IContainer Services { get; set; }
-
         static void Main(string[] args)
         {
             SetupServices();
-            var postgresConnectionService = Services.Resolve<ConnectionService>();
-            var credentialsService = Services.Resolve<CredentialsService>();
-            var configService = Services.Resolve<PathService>();
+            var postgresConnectionService = Services.Container.Resolve<ConnectionService>();
+            var credentialsService = Services.Container.Resolve<CredentialsService>();
+            var configService = Services.Container.Resolve<PathService>();
 
             //Setup db session
             string path = configService.GetCredentialsPath(DatabaseSystem.PostgreSql);
@@ -30,9 +29,11 @@ namespace MyApp
             IPostgresConnectionResult result = postgresConnectionService.Connect(postgresConnectionOptions);
             DatabaseSession session = result.Session;
 
+            var sessionService = Services.Container.Resolve<SessionService>();
+            sessionService.RegisterDatabaseSession(session);
+
             //action
-            var checkoutService = Services.Resolve<CheckoutService>();
-            checkoutService.RegisterSession(session);
+            var checkoutService = Services.Container.Resolve<CheckoutService>();
             checkoutService.CheckoutTable("testtable", @"C:\Users\geert\Documents\Projects\csvDatabaseAccess");
         }
 
@@ -42,7 +43,7 @@ namespace MyApp
             builder.RegisterPostgresServices();
             builder.RegisterCoreServices();
 
-            Services = builder.Build();
+            Services.Container = builder.Build();
         }
     }
 }

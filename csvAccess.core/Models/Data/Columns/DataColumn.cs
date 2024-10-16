@@ -11,7 +11,7 @@ namespace CsvAccess.core.Models.Data.Columns
     {
         public Type DataType { get; }  
         public string ColumnName { get; init; }
-
+        public int Checksum { get; }
         public DataField GetField(object value);
     }
 }

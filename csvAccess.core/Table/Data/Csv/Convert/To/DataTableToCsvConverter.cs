@@ -4,7 +4,7 @@ using CsvAccess.core.Models.Data.Table;
 
 namespace CsvAccess.core.Table.Data.Csv.Convert.To
 {
-    public class DataTableToCsvConverter : IDataTableToCsvConverter
+    internal class DataTableToCsvConverter : IDataTableToCsvConverter
     {
         public DataTableToCsvConverter() { }
 

@@ -10,5 +10,6 @@ namespace CsvAccess.core.Configuration.Credentials
     public interface PathService
     {
         public string GetCredentialsPath(DatabaseSystem database);
+        public string GetChecksumPath(string tableName);
     }
 }

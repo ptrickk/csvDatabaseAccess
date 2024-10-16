@@ -7,5 +7,6 @@ namespace CsvAccess.core.Models.Data.Table
     {
         public IEnumerable<DataColumn> Columns { get; set; }
         public IEnumerable<DataSet> DataSets { get; set; }
+        public int Checksum { get; }
     }
 }

@@ -17,5 +17,18 @@ namespace CsvAccess.core.Models.Data.Columns
         {
             return new NumberField(Convert.ToInt32(value), this);
         }
+
+        public int Checksum
+        {
+            get
+            {
+                int checksum = 0;
+                foreach (char c in ColumnName)
+                {
+                    checksum += c;
+                }
+                return checksum;
+            }
+        }
     }
 }
