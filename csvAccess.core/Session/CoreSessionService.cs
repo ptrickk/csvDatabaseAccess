@@ -9,7 +9,21 @@ namespace CsvAccess.core.Session
 {
     internal class CoreSessionService : SessionService
     {
-        public DatabaseSession DatabaseSession {  get; private set; }
+        private DatabaseSession _databaseSession;
+        public DatabaseSession DatabaseSession
+        {
+            get
+            {
+                if (_databaseSession == null)
+                {
+                    throw new Exception("No DatabaseSession registered");
+                }
+                return _databaseSession;
+            } private set
+            {
+                _databaseSession = value;
+            }
+        }
 
         public void RegisterDatabaseSession(DatabaseSession databaseSession)
         {
