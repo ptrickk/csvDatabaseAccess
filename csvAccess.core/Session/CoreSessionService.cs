@@ -19,7 +19,8 @@ namespace CsvAccess.core.Session
                     throw new Exception("No DatabaseSession registered");
                 }
                 return _databaseSession;
-            } private set
+            }
+            private set
             {
                 _databaseSession = value;
             }

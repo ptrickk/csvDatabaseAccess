@@ -9,19 +9,19 @@ namespace CsvAccess.core.Table.Columns.Create.ByType
 {
     internal class TypeToColumnConverter
     {
-        internal DataColumn CreateColumn(string columnName, Type dataType)
+        internal DataColumn CreateColumn(string columnName, Type dataType, bool isPrimary)
         {
             if (dataType == typeof(int))
             {
-                return new NumberColumn() { ColumnName = columnName };
+                return new NumberColumn() { ColumnName = columnName, IsPrimary = isPrimary };
             }
             else if (dataType == typeof(double))
             {
-                return new DecimalColumn() { ColumnName = columnName };
+                return new DecimalColumn() { ColumnName = columnName, IsPrimary = isPrimary };
             }
             else if (dataType == typeof(string))
             {
-                return new TextColumn() { ColumnName = columnName };
+                return new TextColumn() { ColumnName = columnName, IsPrimary = isPrimary };
             }
 
             throw new ArgumentException($"Not supported type: {dataType}");

@@ -13,5 +13,6 @@ namespace CsvAccess.core.Models.Data.Columns
         public string ColumnName { get; init; }
         public int Checksum { get; }
         public DataField GetField(object value);
+        public bool IsPrimary { get; }
     }
 }

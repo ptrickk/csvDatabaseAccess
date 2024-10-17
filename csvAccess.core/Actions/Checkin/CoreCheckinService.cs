@@ -19,7 +19,7 @@ namespace CsvAccess.core.Actions.Checkin
             _checksumService = checksumService;
         }
 
-        public void CheckinTable(string path)
+        public CheckinResult CheckinTable(string path)
         {
             DatabaseSession database = _sessionService.DatabaseSession;
 

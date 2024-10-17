@@ -1,10 +1,5 @@
 ﻿using CsvAccess.core.Models.Data.Table;
 using CsvAccess.core.Table.Data.Csv;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CsvAccess.core.Table.Data.Checksum.Calculate
 {
@@ -12,7 +7,7 @@ namespace CsvAccess.core.Table.Data.Checksum.Calculate
     {
         private const string TABLE_CHECKSUM_IDENTIFIER = "t_";
         private const string COLUMN_CHECKSUM_IDENTIFIER = "c_";
-        private const string DATA_CHECKSUM_IDENTIFIER = "d_";
+        private const string DATA_CHECKSUM_IDENTIFIER = "d";
 
         public string GetChecksums(IDataTable table)
         {
@@ -24,7 +19,8 @@ namespace CsvAccess.core.Table.Data.Checksum.Calculate
 
             foreach (var dataSet in table.DataSets)
             {
-                output += $"{CsvConstants.LINE_ENDING}{DATA_CHECKSUM_IDENTIFIER}{dataSet.Checksum}";
+                var primaryKey = dataSet.Fields.First(field => field.IsPrimary).Value.ToString();
+                output += $"{CsvConstants.LINE_ENDING}{DATA_CHECKSUM_IDENTIFIER}{primaryKey}_{dataSet.Checksum}";
             }
             return output;
         }

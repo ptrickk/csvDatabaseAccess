@@ -32,11 +32,12 @@ namespace CsvAccess.core.Table.Data.Csv.Convert.From
 
             foreach( var columnDefinition in columnDefinitions)
             {
-                string[] columnName_DataType = columnDefinition.Trim().Split('[');
+                string[] columnName_DataType_columnType = columnDefinition.Trim().Split('[');
 
-                string columnName = columnName_DataType[0];
-                string dataTypeValue = columnName_DataType[1].Trim(']');
-                if (columnName_DataType.Length != 2) 
+                string columnName = columnName_DataType_columnType[0];
+                string dataTypeValue = columnName_DataType_columnType[1].Trim(']');
+                string columnType = columnName_DataType_columnType[2].Trim(']');
+                if (columnName_DataType_columnType.Length != 3) 
                 {
                     throw new Exception("Header column not in correct format");
                 }
@@ -44,7 +45,13 @@ namespace CsvAccess.core.Table.Data.Csv.Convert.From
                 var dataType = Type.GetType(dataTypeValue);
                 var typeConverter = new TypeToColumnConverter();
 
-                columns.Add(typeConverter.CreateColumn(columnName, dataType));
+                bool isPrimary = false;
+                if (columnType.Equals("p"))
+                {
+                    isPrimary = true;
+                }
+
+                columns.Add(typeConverter.CreateColumn(columnName, dataType, isPrimary));
             }
             return columns;
         }

@@ -18,9 +18,9 @@ namespace MyApp
         static void Main(string[] args)
         {
             SetupServices();
-            var postgresConnectionService = Services.Container.Resolve<ConnectionService>();
-            var credentialsService = Services.Container.Resolve<CredentialsService>();
-            var configService = Services.Container.Resolve<PathService>();
+            var postgresConnectionService = Services.Resolve<ConnectionService>();
+            var credentialsService = Services.Resolve<CredentialsService>();
+            var configService = Services.Resolve<PathService>();
 
             //Setup db session
             string path = configService.GetCredentialsPath(DatabaseSystem.PostgreSql);
@@ -29,11 +29,11 @@ namespace MyApp
             IPostgresConnectionResult result = postgresConnectionService.Connect(postgresConnectionOptions);
             DatabaseSession session = result.Session;
 
-            var sessionService = Services.Container.Resolve<SessionService>();
+            var sessionService = Services.Resolve<SessionService>();
             sessionService.RegisterDatabaseSession(session);
 
             //action
-            var checkoutService = Services.Container.Resolve<CheckoutService>();
+            var checkoutService = Services.Resolve<CheckoutService>();
             checkoutService.CheckoutTable("testtable", @"C:\Users\geert\Documents\Projects\csvDatabaseAccess");
         }
 

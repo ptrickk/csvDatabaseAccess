@@ -11,5 +11,6 @@ namespace CsvAccess.core.Models.Data.Field
     {
         public object Value { get; }
         public DataColumn Column { get; }
+        public bool IsPrimary { get; }
     }
 }

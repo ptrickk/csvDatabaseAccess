@@ -13,7 +13,8 @@ namespace CsvAccess.core.Models.Data.Columns
     {
         public Type DataType { get => typeof(double); }
         public string ColumnName { get; init; }
-
+        public bool IsPrimary { get; init; }
+        
         public DataField GetField(object value)
         {
             return new DecimalField(Convert.ToDouble(value), this);
@@ -31,5 +32,7 @@ namespace CsvAccess.core.Models.Data.Columns
                 return checksum;
             }
         }
+
+        
     }
 }

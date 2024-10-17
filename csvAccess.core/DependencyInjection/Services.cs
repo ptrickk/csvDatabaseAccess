@@ -9,7 +9,11 @@ namespace CsvAccess.core.DependencyInjection
 {
     public static class Services
     {
-        public static IContainer Container { get; set; }
+        public static IContainer Container { private get; set; }
 
+        public static TInterface Resolve<TInterface>()
+        {
+            return Container.Resolve<TInterface>();
+        }
     }
 }

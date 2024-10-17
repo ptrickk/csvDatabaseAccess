@@ -6,8 +6,15 @@ using System.Threading.Tasks;
 
 namespace CsvAccess.core.Actions.Checkin
 {
+    public enum CheckinResult
+    {
+        NoChange,
+        Changes,
+        Error
+    }
+
     public interface CheckinService
     {
-        public void CheckinTable(string path);
+        public CheckinResult CheckinTable(string path);
     }
 }

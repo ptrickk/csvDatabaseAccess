@@ -47,7 +47,7 @@ namespace CsvAccess.core.Actions.Checkout
             string dataPath = Path.Combine(destination, $"{tableName}.csv");
 
             string checksumContent = _checksumService.CreateChecksum(dataTable);
-            var pathService = Services.Container.Resolve<PathService>();
+            var pathService = Services.Resolve<PathService>();
             string checksumPath = pathService.GetChecksumPath("testtable");
 
             TryWriteToDestination(dataContent, dataPath);

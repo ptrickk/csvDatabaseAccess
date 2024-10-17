@@ -6,6 +6,9 @@ namespace CsvAccess.core.Table.Data.Csv.Convert.To
 {
     internal class DataTableToCsvConverter : IDataTableToCsvConverter
     {
+        private const char PRIMARY_COLUMN_INDICATOR = 'p';
+        private const char BASE_COLUMN_INDICATOR = 'c';
+
         public DataTableToCsvConverter() { }
 
         public string Convert(IDataTable dataTable)
@@ -32,11 +35,20 @@ namespace CsvAccess.core.Table.Data.Csv.Convert.To
             string header = string.Empty;
             foreach (DataColumn column in columns)
             {
-                header += $"{column.ColumnName}[{column.DataType}]{CsvConstants.COLUMN_SEPERATOR}";
+                
+                header += $"{column.ColumnName}[{column.DataType}][{GetColumnIndicator(column)}]{CsvConstants.COLUMN_SEPERATOR}";
             }
             header = header.Trim(';') + CsvConstants.LINE_ENDING;
 
             return header;
+        }
+
+        private char GetColumnIndicator(DataColumn column)
+        {
+            if (column.IsPrimary)
+                return PRIMARY_COLUMN_INDICATOR;
+
+            return BASE_COLUMN_INDICATOR;
         }
 
         private string GetDoubleRowHeader(IEnumerable<DataColumn> columns)

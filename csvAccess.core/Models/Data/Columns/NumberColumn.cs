@@ -12,6 +12,8 @@ namespace CsvAccess.core.Models.Data.Columns
         public Type DataType => typeof(int);
 
         public string ColumnName { get; init; }
+        public bool IsPrimary { get; init; }
+
 
         public DataField GetField(object value)
         {

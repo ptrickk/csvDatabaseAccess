@@ -5,6 +5,7 @@ using Npgsql;
 using PostgreSqlWrapper.Connection;
 using SqlBuilder;
 using System.Data.Common;
+using System.Net;
 
 namespace PostgreSqlWrapper.Table.Columns
 {
@@ -14,6 +15,7 @@ namespace PostgreSqlWrapper.Table.Columns
         private const string DATA_TYPE_FIELD = "DATA_TYPE";
         private const string INFORMATION_SCHEMA_NAME = "INFORMATION_SCHEMA";
         private const string COLUMNS_TABLE_NAME = "COLUMNS";
+        private const string KEY_TABLE_NAME = "KEY_COLUMN_USAGE";
         private const string TABLE_SCHEMA_FIELD = "TABLE_SCHEMA";
         private const string TABLE_NAME_FIELD = "TABLE_NAME";
 
@@ -32,36 +34,56 @@ namespace PostgreSqlWrapper.Table.Columns
             var columnQuery = Query.Create().Select.Fields([COLUMN_NAME_FIELD, DATA_TYPE_FIELD]).
                 From.Table(TableInSchema(INFORMATION_SCHEMA_NAME, COLUMNS_TABLE_NAME)).
                 Where.Field(TABLE_SCHEMA_FIELD).Is.Value(credentials.Schema).
-            And.Field(TABLE_NAME_FIELD).Is.Value(tableName);
+                And.Field(TABLE_NAME_FIELD).Is.Value(tableName);
+
+            string primaryKey = GetPrimaryKey(session, credentials, tableName);
 
             using NpgsqlDataReader reader = session.ExecuteQuery(columnQuery);
 
             List<DataColumn> columns = new();
             while (reader.Read())
             {
-                columns.Add(GetColumnFromReader(reader));
+                columns.Add(GetColumnFromReader(reader, primaryKey));
             }
             return columns;
         }
+
+        private string GetPrimaryKey(DatabaseSession session, PostgresCredentials credentials, string tableName)
+        {
+            var primaryKeyQuery = Query.Create().Select.Field(COLUMN_NAME_FIELD).
+                From.Table(TableInSchema(INFORMATION_SCHEMA_NAME, KEY_TABLE_NAME)).
+                Where.Field(TABLE_SCHEMA_FIELD).Is.Value(credentials.Schema).
+                And.Field(TABLE_NAME_FIELD).Is.Value(tableName);
+
+            using NpgsqlDataReader reader = session.ExecuteQuery(primaryKeyQuery);
+
+            if(reader.Read())
+            {
+                return reader[COLUMN_NAME_FIELD].ToString()!;
+            }
+            return string.Empty;
+        }
+
         private string TableInSchema(string schemaName, string tableName)
         {
             return $"{schemaName}.{tableName}";
         }
 
-        private DataColumn GetColumnFromReader(NpgsqlDataReader reader)
+        private DataColumn GetColumnFromReader(NpgsqlDataReader reader, string primaryKeyColumn)
         {
             string columnNameField = Convert.ToString(reader[COLUMN_NAME_FIELD]) ?? string.Empty;
             string dataTypeField = Convert.ToString(reader[DATA_TYPE_FIELD]);
             Type dataType;
+            bool isPrimaryKey = columnNameField.Equals(primaryKeyColumn) && !string.IsNullOrEmpty(columnNameField);
 
             switch (dataTypeField)
             {
                 case INTEGER_FIELD_VALUE:
-                    return new NumberColumn() { ColumnName = columnNameField };
+                    return new NumberColumn() { ColumnName = columnNameField, IsPrimary = isPrimaryKey };
                 case DOUBLE_FIELD_VALUE:
-                    return new DecimalColumn() { ColumnName = columnNameField };
+                    return new DecimalColumn() { ColumnName = columnNameField, IsPrimary = isPrimaryKey };
                 case STRING_FIELD_VALUE:
-                    return new TextColumn() { ColumnName = columnNameField };
+                    return new TextColumn() { ColumnName = columnNameField, IsPrimary = isPrimaryKey };
                 default:
                     throw new Exception($"Not supported datatype: {dataTypeField}");
             }

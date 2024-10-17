@@ -7,6 +7,7 @@ namespace CsvAccess.core.Models.Data.Field
         public T Value { get; set; }
         public DataColumn Column { get; set; }
         object DataField.Value => Value;
+        public bool IsPrimary => Column.IsPrimary;
 
         protected DataFieldBase(T value, DataColumn column)
         {
