@@ -3,6 +3,7 @@ using CsvAccess.core.Models.Persistence;
 using CsvAccess.core.Session;
 using CsvAccess.core.Table.Data.Checksum;
 using CsvAccess.core.Table.Data.Csv.Convert;
+using System.Text.RegularExpressions;
 
 namespace CsvAccess.core.Actions.Checkin
 {
@@ -23,9 +24,27 @@ namespace CsvAccess.core.Actions.Checkin
         {
             DatabaseSession database = _sessionService.DatabaseSession;
 
-            IDataTable dataTable = _tableCsvService.FromCsv(path);
+            string csv = File.ReadAllText(path);
+
+            IDataTable dataTable = _tableCsvService.FromCsv(csv);
+
+            string checksums = TryGetChecksums(path);
+
 
             throw new NotImplementedException();
+        }
+
+        private string TryGetChecksums(string path)
+        {
+            Match fileName = Regex.Match(path, @"(/|\\)\w+(\.csv)");
+            if (fileName.Success)
+            {
+                string tableName = Regex.Replace(fileName.Value, @"(/|\\|.csv)", string.Empty);
+
+                return _checksumService.GetChecksumByTableName(tableName);
+            }
+
+            return string.Empty;
         }
     }
 }

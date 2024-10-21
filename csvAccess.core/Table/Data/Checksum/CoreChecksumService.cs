@@ -29,7 +29,7 @@ namespace CsvAccess.core.Table.Data.Checksum
                 return string.Empty;
             }
 
-            throw new NotImplementedException();
+            return File.ReadAllText(path);
         }
     }
 }

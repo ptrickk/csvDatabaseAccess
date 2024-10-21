@@ -8,6 +8,14 @@ namespace CsvAccess.core.Models.Data.Set
 
         public DataSet() {  }
 
+        public int PrimaryKey
+        {
+            get
+            {
+                return (int) Fields.First(field => field.IsPrimary).Value;
+            }
+        }
+
         public int Checksum
         {
             get
