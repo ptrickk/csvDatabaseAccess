@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using CsvAccess.core.Actions.Checkin;
 using CsvAccess.core.Actions.Checkout;
 using CsvAccess.core.Configuration;
 using CsvAccess.core.Configuration.Credentials;
@@ -33,8 +34,11 @@ namespace MyApp
             sessionService.RegisterDatabaseSession(session);
 
             //action
-            var checkoutService = Services.Resolve<CheckoutService>();
-            checkoutService.CheckoutTable("testtable", @"C:\Users\geert\Documents\Projects\csvDatabaseAccess");
+            //var checkoutService = Services.Resolve<CheckoutService>();
+            //checkoutService.CheckoutTable("testtable", @"C:\Users\geert\Documents\Projects\csvDatabaseAccess");
+
+            var checkingService = Services.Resolve<CheckinService>();
+            checkingService.CheckinTable(@"C:\Users\geert\Documents\Projects\csvDatabaseAccess\testtable.csv");
         }
 
         private static void SetupServices()
