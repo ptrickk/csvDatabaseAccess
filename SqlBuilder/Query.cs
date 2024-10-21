@@ -243,6 +243,14 @@ public partial class Query
         }
     }
 
+    public Query Values
+    {
+        get
+        {
+            return new Query(_query, "VALUES", _tables);
+        }
+    }
+
     public override string ToString()
     {
         return _query.Trim();

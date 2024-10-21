@@ -22,6 +22,17 @@ namespace PostgreSqlWrapper.Connection
             _connection?.Dispose();
         }
 
+        public void ExecuteNonQuery(Query query)
+        {
+            NpgsqlCommand cmd = new NpgsqlCommand(query.ToString(), _connection);
+            cmd.ExecuteNonQuery();
+        }
+
+        public void ExecuteNonQuery(dynamic query)
+        {
+            ExecuteNonQuery(query);
+        }
+
         public NpgsqlDataReader ExecuteQuery(Query query)
         {
             NpgsqlCommand getTableColumnsCommand = new NpgsqlCommand(query.ToString(), _connection);

@@ -1,6 +1,7 @@
 ﻿using CsvAccess.core.Models.Data.Columns;
 using CsvAccess.core.Models.Data.Field;
 using CsvAccess.core.Models.Data.Table;
+using System.Globalization;
 
 namespace CsvAccess.core.Table.Data.Csv.Convert.To
 {

@@ -31,8 +31,6 @@ namespace PostgreSqlWrapper.Table.Data
 
         public DataSet GetDatasetFromReader(NpgsqlDataReader reader, IEnumerable<DataColumn> columns)
         {
-            DataSet dataSetFromRow = new DataSet();
-
             List<DataField> fields = new List<DataField>();
 
             foreach (var column in columns)
@@ -47,6 +45,47 @@ namespace PostgreSqlWrapper.Table.Data
         private string TableInSchema(PostgresCredentials credentials, string tableName)
         {
             return $"{credentials.Schema}.{tableName}";
+        }
+
+        public void InsertNewDatasets(DatabaseSession session, string tableName, IEnumerable<DataColumn> columns, IEnumerable<DataSet> dataSets)
+        {
+            PostgresCredentials credentials = ((PostgresSession)session).Credentials;
+            var insertQuery = Query.Create().InsertInto.Table(TableInSchema(credentials, tableName)).Fields(columns.Select(column => column.ColumnName), true).Values;
+            int index = 0;
+            foreach(var dataSet in dataSets)
+            {
+                index++;
+                insertQuery = insertQuery.Fields(dataSet.Fields.Select(FormatField), true);
+                if(index != dataSets.Count())
+                {
+                    insertQuery = insertQuery.Also;
+                }
+            }
+
+            session.ExecuteNonQuery(insertQuery);
+        }
+
+        public void UpdateExistingDatasets(DatabaseSession session, string tableName, IEnumerable<DataColumn> columns, IEnumerable<DataSet> dataSets)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteDatasets(DatabaseSession session, string tableName, IEnumerable<DataColumn> columns, IEnumerable<int> dataSets)
+        {
+            throw new NotImplementedException();
+        }
+
+        private string FormatField(DataField field)
+        {
+            if(field.Column.DataType == typeof(string))
+            {
+                return $"\'{field.Value}\'";
+            }
+            else if(field.Column.DataType == typeof(double))
+            {
+                return field.Value.ToString()!.Replace(",", ".");
+            }
+            return field.Value.ToString()!;
         }
     }
 }
