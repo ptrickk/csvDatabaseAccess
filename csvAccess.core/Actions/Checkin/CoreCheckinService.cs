@@ -1,4 +1,6 @@
-﻿using CsvAccess.core.Models.Data.Table;
+﻿using CsvAccess.core.Configuration.Credentials;
+using CsvAccess.core.DependencyInjection;
+using CsvAccess.core.Models.Data.Table;
 using CsvAccess.core.Models.Persistence;
 using CsvAccess.core.Session;
 using CsvAccess.core.Table.Data;
@@ -34,16 +36,30 @@ namespace CsvAccess.core.Actions.Checkin
             IDataTable dataTable = _tableCsvService.FromCsv(csv);
 
             string checksums = TryGetChecksums(path);
-
             var checksumComparer = new ChecksumComparer(dataTable, checksums.Split(CsvConstants.LINE_ENDING));
 
             var result = CheckinResult.NoChange;
-
             if(checksumComparer.NewDatasets.Count > 0)
             {
                 _dataTableService.InsertNewDatasets(_sessionService.DatabaseSession, GetTableNameFromPath(path), dataTable.Columns, checksumComparer.NewDatasets);
                 result = CheckinResult.Changes;
             }
+            if(checksumComparer.ChangedDatasets.Count > 0)
+            {
+                _dataTableService.UpdateExistingDatasets(_sessionService.DatabaseSession, GetTableNameFromPath(path), dataTable.Columns, checksumComparer.ChangedDatasets);
+                result = CheckinResult.Changes;
+            }
+            if (checksumComparer.DeletedDatasets.Count > 0)
+            {
+                _dataTableService.DeleteDatasets(_sessionService.DatabaseSession, GetTableNameFromPath(path), dataTable.Columns, checksumComparer.DeletedDatasets);
+                result = CheckinResult.Changes;
+            }
+
+            string checksumContent = _checksumService.CreateChecksum(dataTable);
+            var pathService = Services.Resolve<PathService>();
+            string checksumPath = pathService.GetChecksumPath(GetTableNameFromPath(path));
+
+            TryWriteToDestination(checksumContent, checksumPath);
 
             return result;
         }
@@ -61,6 +77,18 @@ namespace CsvAccess.core.Actions.Checkin
                 return Regex.Replace(fileName.Value, @"(/|\\|.csv)", string.Empty);
             }
             throw new Exception("invalid filepath");
+        }
+
+        private void TryWriteToDestination(string content, string destination)
+        {
+            try
+            {
+                File.WriteAllText(destination, content);
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Couldnt write to \"{destination}\". Check if the path is correct. Error: {e}");
+            }
         }
     }
 }

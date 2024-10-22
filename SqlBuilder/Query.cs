@@ -251,6 +251,22 @@ public partial class Query
         }
     }
 
+    public Query Set
+    {
+        get
+        {
+            return new Query(_query, "SET", _tables);
+        }
+    }
+
+    public Query To
+    {
+        get
+        {
+            return Is;
+        }
+    }
+
     public override string ToString()
     {
         return _query.Trim();

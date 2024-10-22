@@ -21,7 +21,7 @@ namespace PostgreSqlWrapper.Table.Data
             var reader = session.ExecuteQuery(dataQuery);
 
             List<DataSet> dataSets = new List<DataSet>();
-            while(reader.Read())
+            while (reader.Read())
             {
                 dataSets.Add(GetDatasetFromReader(reader, columns));
             }
@@ -52,11 +52,11 @@ namespace PostgreSqlWrapper.Table.Data
             PostgresCredentials credentials = ((PostgresSession)session).Credentials;
             var insertQuery = Query.Create().InsertInto.Table(TableInSchema(credentials, tableName)).Fields(columns.Select(column => column.ColumnName), true).Values;
             int index = 0;
-            foreach(var dataSet in dataSets)
+            foreach (var dataSet in dataSets)
             {
                 index++;
                 insertQuery = insertQuery.Fields(dataSet.Fields.Select(FormatField), true);
-                if(index != dataSets.Count())
+                if (index != dataSets.Count())
                 {
                     insertQuery = insertQuery.Also;
                 }
@@ -67,21 +67,58 @@ namespace PostgreSqlWrapper.Table.Data
 
         public void UpdateExistingDatasets(DatabaseSession session, string tableName, IEnumerable<DataColumn> columns, IEnumerable<DataSet> dataSets)
         {
-            throw new NotImplementedException();
+            PostgresCredentials credentials = ((PostgresSession)session).Credentials;
+            var updateQueryBase = Query.Create().Update.Table(TableInSchema(credentials, tableName)).Set;
+
+            foreach (var dataSet in dataSets)
+            {
+                var updateQuery = updateQueryBase;
+                var fields = dataSet.Fields.ToArray();
+                DataField primaryKey = null; 
+                for (int i = 0; i < fields.Count(); i++)
+                {
+                    if (fields[i].IsPrimary)
+                    {
+                        primaryKey = fields[i];
+                        continue;
+                    }
+
+                    updateQuery = updateQuery.Field(fields[i].Column.ColumnName).To.Field(FormatField(fields[i]));
+                    if(i < fields.Count() - 1)
+                    {
+                        updateQuery = updateQuery.Also;
+                    }
+                }
+                updateQuery = updateQuery.Where.Field(primaryKey.Column.ColumnName).Is.Field(FormatField(primaryKey));
+                session.ExecuteNonQuery(updateQuery);
+            }
         }
 
         public void DeleteDatasets(DatabaseSession session, string tableName, IEnumerable<DataColumn> columns, IEnumerable<int> dataSets)
         {
-            throw new NotImplementedException();
+            PostgresCredentials credentials = ((PostgresSession)session).Credentials;
+            var deleteQuery = Query.Create().Delete.From.Table(TableInSchema(credentials, tableName)).Where;
+            var keysToDelete = dataSets.ToList();
+            var primaryColumn = columns.First(column => column.IsPrimary);
+
+            for (int i = 0; i < keysToDelete.Count(); i++)
+            {
+                deleteQuery = deleteQuery.Field(primaryColumn.ColumnName).Is.Value(keysToDelete[i]);
+                if (i < keysToDelete.Count() - 1)
+                {
+                    deleteQuery = deleteQuery.Or;
+                }
+            }
+            session.ExecuteNonQuery(deleteQuery);
         }
 
         private string FormatField(DataField field)
         {
-            if(field.Column.DataType == typeof(string))
+            if (field.Column.DataType == typeof(string))
             {
                 return $"\'{field.Value}\'";
             }
-            else if(field.Column.DataType == typeof(double))
+            else if (field.Column.DataType == typeof(double))
             {
                 return field.Value.ToString()!.Replace(",", ".");
             }

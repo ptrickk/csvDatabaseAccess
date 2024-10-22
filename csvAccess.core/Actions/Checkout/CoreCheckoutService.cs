@@ -48,7 +48,7 @@ namespace CsvAccess.core.Actions.Checkout
 
             string checksumContent = _checksumService.CreateChecksum(dataTable);
             var pathService = Services.Resolve<PathService>();
-            string checksumPath = pathService.GetChecksumPath("testtable");
+            string checksumPath = pathService.GetChecksumPath(tableName);
 
             TryWriteToDestination(dataContent, dataPath);
             TryWriteToDestination(checksumContent, checksumPath);
