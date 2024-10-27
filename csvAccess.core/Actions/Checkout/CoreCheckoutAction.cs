@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 
 namespace CsvAccess.core.Actions.Checkout
 {
-    internal class CoreCheckoutService : CheckoutService
+    internal class CoreCheckoutAction : CheckoutAction
     {
         private SessionService _sessionService;
         private DataColumnService _dataColumnService;
@@ -27,7 +27,7 @@ namespace CsvAccess.core.Actions.Checkout
         private TableCsvService _tableCsvService;
         private ChecksumService _checksumService;
 
-        public CoreCheckoutService(SessionService sessionService, DataColumnService dataColumnService, DataTableService dataTableService, TableCsvService tableCsvService, ChecksumService checksumService)
+        public CoreCheckoutAction(SessionService sessionService, DataColumnService dataColumnService, DataTableService dataTableService, TableCsvService tableCsvService, ChecksumService checksumService)
         {
             _sessionService = sessionService;
             _dataColumnService = dataColumnService;
@@ -35,8 +35,16 @@ namespace CsvAccess.core.Actions.Checkout
             _tableCsvService = tableCsvService;
             _checksumService = checksumService;
         }
+        public ActionResult Execute(string[] arguments)
+        {
+            if (arguments.Length != 2)
+            {
+                throw new ArgumentException("Invalid number of arguments passed for checkout action");
+            }
+            return CheckoutTable(arguments[0], arguments[1]);
+        }
 
-        public void CheckoutTable(string tableName, string destination)
+        public ActionResult CheckoutTable(string tableName, string destination)
         {
             DatabaseSession database = _sessionService.DatabaseSession;
 
@@ -52,6 +60,8 @@ namespace CsvAccess.core.Actions.Checkout
 
             TryWriteToDestination(dataContent, dataPath);
             TryWriteToDestination(checksumContent, checksumPath);
+
+            return CoreActionResult.CreateSuccess();
         }
 
         private void TryWriteToDestination(string content, string destination)

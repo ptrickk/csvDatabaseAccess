@@ -1,7 +1,6 @@
 ﻿using CsvAccess.core.Configuration.Credentials;
 using CsvAccess.core.DependencyInjection;
 using CsvAccess.core.Models.Data.Table;
-using CsvAccess.core.Models.Persistence;
 using CsvAccess.core.Session;
 using CsvAccess.core.Table.Data;
 using CsvAccess.core.Table.Data.Checksum;
@@ -12,14 +11,14 @@ using System.Text.RegularExpressions;
 
 namespace CsvAccess.core.Actions.Checkin
 {
-    internal class CoreCheckinService : CheckinService
+    internal class CoreCheckinAction : CheckinAction
     {
-        private SessionService _sessionService;
-        private TableCsvService _tableCsvService;
-        private ChecksumService _checksumService;
-        private DataTableService _dataTableService;
+        private readonly SessionService _sessionService;
+        private readonly TableCsvService _tableCsvService;
+        private readonly ChecksumService _checksumService;
+        private readonly DataTableService _dataTableService;
 
-        public CoreCheckinService(SessionService sessionService, TableCsvService tableCsvService, ChecksumService checksumService, DataTableService dataTableService)
+        public CoreCheckinAction(SessionService sessionService, TableCsvService tableCsvService, ChecksumService checksumService, DataTableService dataTableService)
         {
             _sessionService = sessionService;
             _tableCsvService = tableCsvService;
@@ -27,41 +26,44 @@ namespace CsvAccess.core.Actions.Checkin
             _dataTableService = dataTableService;
         }
 
-        public CheckinResult CheckinTable(string path)
+        public ActionResult Execute(string[] arguments)
         {
-            DatabaseSession database = _sessionService.DatabaseSession;
+            if (arguments.Length != 1)
+            {
+                throw new ArgumentException("Invalid number of arguments passed for checkin action");
+            }
+            return CheckinTable(arguments[0]);
+        }
 
-            string csv = File.ReadAllText(path);
+        public ActionResult CheckinTable(string path)
+        {
+            var csv = File.ReadAllText(path);
 
             IDataTable dataTable = _tableCsvService.FromCsv(csv);
 
-            string checksums = TryGetChecksums(path);
+            var checksums = TryGetChecksums(path);
             var checksumComparer = new ChecksumComparer(dataTable, checksums.Split(CsvConstants.LINE_ENDING));
 
-            var result = CheckinResult.NoChange;
             if(checksumComparer.NewDatasets.Count > 0)
             {
                 _dataTableService.InsertNewDatasets(_sessionService.DatabaseSession, GetTableNameFromPath(path), dataTable.Columns, checksumComparer.NewDatasets);
-                result = CheckinResult.Changes;
             }
             if(checksumComparer.ChangedDatasets.Count > 0)
             {
                 _dataTableService.UpdateExistingDatasets(_sessionService.DatabaseSession, GetTableNameFromPath(path), dataTable.Columns, checksumComparer.ChangedDatasets);
-                result = CheckinResult.Changes;
             }
             if (checksumComparer.DeletedDatasets.Count > 0)
             {
                 _dataTableService.DeleteDatasets(_sessionService.DatabaseSession, GetTableNameFromPath(path), dataTable.Columns, checksumComparer.DeletedDatasets);
-                result = CheckinResult.Changes;
             }
 
-            string checksumContent = _checksumService.CreateChecksum(dataTable);
+            var checksumContent = _checksumService.CreateChecksum(dataTable);
             var pathService = Services.Resolve<PathService>();
-            string checksumPath = pathService.GetChecksumPath(GetTableNameFromPath(path));
+            var checksumPath = pathService.GetChecksumPath(GetTableNameFromPath(path));
 
             TryWriteToDestination(checksumContent, checksumPath);
 
-            return result;
+            return CoreActionResult.CreateSuccess();
         }
 
         private string TryGetChecksums(string path)

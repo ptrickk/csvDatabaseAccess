@@ -18,8 +18,8 @@ namespace CsvAccess.core.DependencyInjection
             builder.RegisterType<CoreTableCsvService>().As<TableCsvService>();
             builder.RegisterType<CoreChecksumService>().As<ChecksumService>();
             
-            builder.RegisterType<CoreCheckinService>().As<CheckinService>();
-            builder.RegisterType<CoreCheckoutService>().As<CheckoutService>();
+            builder.RegisterType<CoreCheckinAction>().As<CheckinAction>();
+            builder.RegisterType<CoreCheckoutAction>().As<CheckoutAction>();
         }
     }
 }

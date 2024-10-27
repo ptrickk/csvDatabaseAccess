@@ -23,11 +23,6 @@ namespace PostgreSqlWrapper.Table.Columns
         private const string DOUBLE_FIELD_VALUE = "numeric";
         private const string STRING_FIELD_VALUE = "text";
 
-        public DataColumn GetColumn(string columnName)
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable<DataColumn> GetColumns(DatabaseSession session, string tableName)
         {
             PostgresCredentials credentials = ((PostgresSession)session).Credentials;

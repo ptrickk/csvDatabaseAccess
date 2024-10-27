@@ -1,44 +1,67 @@
 ﻿using Autofac;
+using CsvAccess.CLI.IO;
+using CsvAccess.CLI.Services.Action;
+using CsvAccess.CLI.Services.Setup;
 using CsvAccess.core.Actions.Checkin;
-using CsvAccess.core.Actions.Checkout;
 using CsvAccess.core.Configuration;
 using CsvAccess.core.Configuration.Credentials;
 using CsvAccess.core.DependencyInjection;
-using CsvAccess.core.Models.Data.Columns;
 using CsvAccess.core.Models.Persistence;
 using CsvAccess.core.Session;
-using PostgreSqlWrapper;
 using PostgreSqlWrapper.Connection;
 using PostgreSqlWrapper.DependencyInjection;
-using System;
+using Action = CsvAccess.core.Actions.Action;
 
-namespace MyApp
+namespace CsvAccess.CLI
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            SetupServices();
-            var postgresConnectionService = Services.Resolve<ConnectionService>();
-            var credentialsService = Services.Resolve<CredentialsService>();
-            var configService = Services.Resolve<PathService>();
+            if (args.Length == 0)
+            {
+                //start interactive
+            }
+            else
+            {
+                var command = new Command(args);
+                SetupServices(command.DatabaseSystem).Show();
 
-            //Setup db session
-            string path = configService.GetCredentialsPath(DatabaseSystem.PostgreSql);
-            var credentials = credentialsService.GetCredentials(path);
-            var postgresConnectionOptions = PostgresConnectionOptions.Create(credentials);
-            IPostgresConnectionResult result = postgresConnectionService.Connect(postgresConnectionOptions);
-            DatabaseSession session = result.Session;
+                var actionResolver = new ActionServiceResolver();
+                Action action = actionResolver.GetActionFromCommand(command.CommandName);
+                
+                //execute action
+                action.Execute(command.CommandArguments);
+            }
+        }
 
-            var sessionService = Services.Resolve<SessionService>();
-            sessionService.RegisterDatabaseSession(session);
+        private static Display SetupServices(string databaseSystem)
+        {
+            try
+            {
+                ServiceSetup serviceSetup = GetSystemFromArgs(databaseSystem);
+                serviceSetup.RegisterServices();
+                serviceSetup.Build();
+                serviceSetup.Connect();
 
-            //action
-            //var checkoutService = Services.Resolve<CheckoutService>();
-            //checkoutService.CheckoutTable("testtable", @"C:\Users\geert\Documents\Projects\csvDatabaseAccess");
+                return Information.Create("Database connection established!");
+            }
+            catch (ArgumentException ex)
+            {
+                return Error.Create(ex.Message);
+            }
+        }
 
-            var checkingService = Services.Resolve<CheckinService>();
-            checkingService.CheckinTable(@"C:\Users\geert\Documents\Projects\csvDatabaseAccess\testtable.csv");
+        private static ServiceSetup GetSystemFromArgs(string databaseSystem)
+        {
+            var postgresIdentifier = new List<string> { "pg", "postgres" };
+
+            if (postgresIdentifier.Contains(databaseSystem))
+            {
+                return new PostgresServiceSetup();
+            }
+
+            throw new ArgumentException($"Unknown database identifier: {databaseSystem}");
         }
 
         private static void SetupServices()
@@ -47,7 +70,34 @@ namespace MyApp
             builder.RegisterPostgresServices();
             builder.RegisterCoreServices();
 
-            Services.Container = builder.Build();
+            core.DependencyInjection.Services.Container = builder.Build();
         }
+
+        //hack
+        public void testMethod()
+        {
+            SetupServices();
+            var postgresConnectionService = core.DependencyInjection.Services.Resolve<ConnectionService>();
+            var credentialsService = core.DependencyInjection.Services.Resolve<CredentialsService>();
+            var configService = core.DependencyInjection.Services.Resolve<PathService>();
+
+            //Setup db session
+            string path = configService.GetCredentialsPath(DatabaseSystem.PostgreSql);
+            var credentials = credentialsService.GetCredentials(path);
+            var postgresConnectionOptions = PostgresConnectionOptions.Create(credentials);
+            IPostgresConnectionResult result = postgresConnectionService.Connect(postgresConnectionOptions);
+            DatabaseSession session = result.Session;
+
+            var sessionService = core.DependencyInjection.Services.Resolve<SessionService>();
+            sessionService.RegisterDatabaseSession(session);
+
+            //action
+            //var checkoutService = Services.Resolve<CheckoutAction>();
+            //checkoutService.CheckoutTable("testtable", @"C:\Users\geert\Documents\Projects\csvDatabaseAccess");
+
+            var checkingService = core.DependencyInjection.Services.Resolve<CheckinAction>();
+            checkingService.CheckinTable(@"C:\Users\geert\Documents\Projects\csvDatabaseAccess\testtable.csv");
+        }
+
     }
 }

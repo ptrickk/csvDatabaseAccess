@@ -8,6 +8,7 @@ namespace CsvAccess.core.Models.Persistence
 {
     public enum DatabaseSystem
     {
-        PostgreSql
+        PostgreSql,
+        Unknown
     }
 }
