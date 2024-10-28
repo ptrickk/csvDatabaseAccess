@@ -35,6 +35,9 @@ namespace CsvAccess.core.Actions.Checkout
             _tableCsvService = tableCsvService;
             _checksumService = checksumService;
         }
+
+        public bool ConnectionReliant { get; } = true;
+
         public ActionResult Execute(string[] arguments)
         {
             if (arguments.Length != 2)

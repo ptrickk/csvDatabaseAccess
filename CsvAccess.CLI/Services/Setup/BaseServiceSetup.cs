@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using CsvAccess.CLI.DependencyInjection;
+using CsvAccess.CLI.IO;
 using CsvAccess.core.DependencyInjection;
 using CsvAccess.core.Models.Persistence;
 
@@ -28,7 +29,7 @@ public class BaseServiceSetup : ServiceSetup
         core.DependencyInjection.Services.Container = Builder!.Build();
     }
 
-    public virtual void Connect()
+    public virtual Display Connect()
     {
         throw new NotImplementedException();
     }

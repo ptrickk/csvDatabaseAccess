@@ -1,4 +1,5 @@
-﻿using CsvAccess.core.Models.Persistence;
+﻿using CsvAccess.CLI.IO;
+using CsvAccess.core.Models.Persistence;
 
 namespace CsvAccess.CLI.Services.Setup;
 
@@ -10,5 +11,5 @@ public interface ServiceSetup
 
     void Build();
 
-    void Connect();
+    Display Connect();
 }

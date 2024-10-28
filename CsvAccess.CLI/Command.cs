@@ -2,11 +2,11 @@
 
 internal class Command
 {
-    public string? DatabaseSystem { get; private set; }
+    public string? DatabaseSystem { get; private set; } = string.Empty;
 
-    public string? CommandName { get; private set; }
+    public string? CommandName { get; private set; } = string.Empty;
 
-    public string[] CommandArguments { get; private set; }
+    public string[] CommandArguments { get; private set; } = [];
 
     public Command(string[] args)
     {

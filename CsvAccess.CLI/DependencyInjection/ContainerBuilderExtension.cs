@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using CsvAccess.CLI.Actions;
+using CsvAccess.CLI.Actions.Credentials;
 using CsvAccess.core.Actions.Credentials;
 
 namespace CsvAccess.CLI.DependencyInjection;

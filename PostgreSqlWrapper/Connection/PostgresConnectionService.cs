@@ -5,6 +5,8 @@ namespace PostgreSqlWrapper.Connection
 {
     internal class PostgresConnectionService : ConnectionService
     {
+        public DatabaseSystem DatabaseSystem { get; } = DatabaseSystem.PostgreSql;
+
         public dynamic Connect(dynamic connectionOptions)
         {
             return Connect(connectionOptions);

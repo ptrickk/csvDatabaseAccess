@@ -2,7 +2,7 @@
   "profiles": {
     "CsvAccess.CLI": {
       "commandName": "Project",
-      "commandLineArgs": "pg checkout testtable C:\\Users\\geert\\Documents\\oktay"
+      "commandLineArgs": "pg config"
     }
   }
 }
