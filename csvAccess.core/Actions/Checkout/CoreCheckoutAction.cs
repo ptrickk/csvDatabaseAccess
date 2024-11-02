@@ -42,7 +42,7 @@ namespace CsvAccess.core.Actions.Checkout
         {
             if (arguments.Length != 2)
             {
-                throw new ArgumentException("Invalid number of arguments passed for checkout action");
+                return CoreActionResult.CreateFailure("Invalid number of arguments passed for checkout action");
             }
             return CheckoutTable(arguments[0], arguments[1]);
         }
