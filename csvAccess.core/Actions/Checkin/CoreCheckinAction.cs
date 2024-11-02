@@ -17,15 +17,17 @@ namespace CsvAccess.core.Actions.Checkin
         private readonly TableCsvService _tableCsvService;
         private readonly ChecksumService _checksumService;
         private readonly DataTableService _dataTableService;
+        private readonly PathService _pathService;
 
         public bool DatabaseReliant { get; } = true;
 
-        public CoreCheckinAction(SessionService sessionService, TableCsvService tableCsvService, ChecksumService checksumService, DataTableService dataTableService)
+        public CoreCheckinAction(SessionService sessionService, TableCsvService tableCsvService, ChecksumService checksumService, DataTableService dataTableService, PathService pathService)
         {
             _sessionService = sessionService;
             _tableCsvService = tableCsvService;
             _checksumService = checksumService;
             _dataTableService = dataTableService;
+            _pathService = pathService;
         }
 
         public ActionResult Execute(string[] arguments)
@@ -59,9 +61,8 @@ namespace CsvAccess.core.Actions.Checkin
                 _dataTableService.DeleteDatasets(_sessionService.DatabaseSession, GetTableNameFromPath(path), dataTable.Columns, checksumComparer.DeletedDatasets);
             }
 
-            var checksumContent = _checksumService.CreateChecksum(dataTable);
-            var pathService = Services.Resolve<PathService>();
-            var checksumPath = pathService.GetChecksumPath(GetTableNameFromPath(path));
+            string checksumContent = _checksumService.CreateChecksum(dataTable);
+            string checksumPath = _pathService.GetChecksumPath(GetTableNameFromPath(path));
 
             TryWriteToDestination(checksumContent, checksumPath);
 
