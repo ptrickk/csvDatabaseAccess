@@ -2,7 +2,7 @@
 using CsvAccess.core.Models.Data.Field;
 using CsvAccess.core.Models.Data.Set;
 using CsvAccess.core.Models.Data.Table;
-using CsvAccess.core.Models.Persistence;
+using CsvAccess.core.Persistence;
 using CsvAccess.core.Table.Data;
 using Npgsql;
 using PostgreSqlWrapper.Connection;

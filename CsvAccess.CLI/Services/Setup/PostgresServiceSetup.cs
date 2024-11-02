@@ -1,10 +1,11 @@
 ﻿using CsvAccess.CLI.IO;
 using CsvAccess.core.Configuration.Credentials;
 using CsvAccess.core.Configuration;
-using CsvAccess.core.Models.Persistence;
 using CsvAccess.core.Session;
 using PostgreSqlWrapper.Connection;
 using PostgreSqlWrapper.DependencyInjection;
+using CsvAccess.core.Persistence;
+using PostgreSqlWrapper;
 
 namespace CsvAccess.CLI.Services.Setup;
 
@@ -24,7 +25,7 @@ public class PostgresServiceSetup : BaseServiceSetup
         var configService = core.DependencyInjection.Services.Resolve<PathService>();
 
         //Setup db session
-        string path = configService.GetCredentialsPath(DatabaseSystem.PostgreSql);
+        string path = configService.GetCredentialsPath(new PostgresStrategy());
         var credentials = credentialsService.GetCredentials(path);
         var postgresConnectionOptions = PostgresConnectionOptions.Create(credentials);
         IPostgresConnectionResult result = postgresConnectionService.Connect(postgresConnectionOptions);

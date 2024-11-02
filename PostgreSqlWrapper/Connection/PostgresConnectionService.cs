@@ -1,11 +1,11 @@
-﻿using CsvAccess.core.Models.Persistence;
+﻿using CsvAccess.core.Persistence;
 using Npgsql;
 
 namespace PostgreSqlWrapper.Connection
 {
     internal class PostgresConnectionService : ConnectionService
     {
-        public DatabaseSystem DatabaseSystem { get; } = DatabaseSystem.PostgreSql;
+        public DatabaseStrategy DatabaseStrategy { get; }
 
         public dynamic Connect(dynamic connectionOptions)
         {

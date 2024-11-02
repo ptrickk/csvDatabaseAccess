@@ -1,5 +1,5 @@
 ﻿using CsvAccess.core.Models.Data.Columns;
-using CsvAccess.core.Models.Persistence;
+using CsvAccess.core.Persistence;
 
 namespace CsvAccess.core.Table.Columns.Get.ByTable
 {

@@ -3,7 +3,7 @@ using CsvAccess.core.Configuration.Credentials;
 using CsvAccess.core.DependencyInjection;
 using CsvAccess.core.Models.Data.Columns;
 using CsvAccess.core.Models.Data.Table;
-using CsvAccess.core.Models.Persistence;
+using CsvAccess.core.Persistence;
 using CsvAccess.core.Session;
 using CsvAccess.core.Table.Columns.Get.ByTable;
 using CsvAccess.core.Table.Data;

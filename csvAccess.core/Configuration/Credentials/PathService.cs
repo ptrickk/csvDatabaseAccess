@@ -1,4 +1,4 @@
-﻿using CsvAccess.core.Models.Persistence;
+﻿using CsvAccess.core.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,7 @@ namespace CsvAccess.core.Configuration.Credentials
 {
     public interface PathService
     {
-        public string GetCredentialsPath(DatabaseSystem database);
+        public string GetCredentialsPath(DatabaseStrategy database);
         public string GetChecksumPath(string tableName);
     }
 }

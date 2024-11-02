@@ -3,7 +3,7 @@ using CsvAccess.core.Actions;
 using CsvAccess.core.Actions.Credentials;
 using CsvAccess.core.Configuration.Credentials;
 using CsvAccess.core.Encryption;
-using CsvAccess.core.Models.Persistence;
+using CsvAccess.core.Persistence;
 
 namespace CsvAccess.CLI.Actions.Credentials;
 
@@ -25,7 +25,7 @@ public class CommandLineCredentialsAction : CredentialsAction
         {
             //base profile
             var connectionService = core.DependencyInjection.Services.Resolve<ConnectionService>();
-            return OpenCredentials(connectionService.DatabaseSystem);
+            return OpenCredentials(connectionService.DatabaseStrategy);
         }
         if (arguments.Length == 1)
         {
@@ -34,7 +34,7 @@ public class CommandLineCredentialsAction : CredentialsAction
         throw new ArgumentException("Invalid number of arguments passed for credential action.");
     }
 
-    public ActionResult OpenCredentials(DatabaseSystem database, string profile = "")
+    public ActionResult OpenCredentials(DatabaseStrategy database, string profile = "")
     {
         var pathService = core.DependencyInjection.Services.Resolve<PathService>();
         string path = pathService.GetCredentialsPath(database);

@@ -1,4 +1,4 @@
-﻿namespace CsvAccess.core.Models.Persistence
+﻿namespace CsvAccess.core.Persistence
 {
     public interface DatabaseSession
     {

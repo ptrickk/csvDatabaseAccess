@@ -1,8 +1,8 @@
-﻿using CsvAccess.core.Models.Persistence;
+﻿using CsvAccess.core.Persistence;
 
 namespace CsvAccess.core.Actions.Credentials;
 
 public interface CredentialsAction : Action
 {
-    public ActionResult OpenCredentials(DatabaseSystem database, string profile);
+    public ActionResult OpenCredentials(DatabaseStrategy database, string profile);
 }

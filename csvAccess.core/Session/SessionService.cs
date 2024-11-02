@@ -1,4 +1,4 @@
-﻿using CsvAccess.core.Models.Persistence;
+﻿using CsvAccess.core.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;

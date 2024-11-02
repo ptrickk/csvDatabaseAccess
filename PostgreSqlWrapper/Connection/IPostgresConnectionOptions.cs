@@ -1,9 +1,4 @@
-﻿using CsvAccess.core.Models.Persistence;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CsvAccess.core.Persistence;
 
 namespace PostgreSqlWrapper.Connection
 {

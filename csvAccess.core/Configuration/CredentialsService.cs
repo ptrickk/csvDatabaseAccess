@@ -2,6 +2,6 @@
 {
     public interface CredentialsService
     {
-        public Models.Persistence.Credentials GetCredentials(string filepath);
+        public Persistence.Credentials GetCredentials(string filepath);
     }
 }

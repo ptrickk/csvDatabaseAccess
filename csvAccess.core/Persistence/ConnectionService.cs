@@ -1,8 +1,8 @@
-﻿namespace CsvAccess.core.Models.Persistence
+﻿namespace CsvAccess.core.Persistence
 {
     public interface ConnectionService
     {
-        public DatabaseSystem DatabaseSystem { get; }
+        public DatabaseStrategy DatabaseStrategy { get; }
         public dynamic Connect(dynamic connectionOptions);
     }
 }

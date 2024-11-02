@@ -12,7 +12,7 @@ namespace CsvAccess.core.Credentials
             _encryptionService = encryptionService;
         }
 
-        public Models.Persistence.Credentials GetCredentials(string filepath)
+        public Persistence.Credentials GetCredentials(string filepath)
         {
             if (!File.Exists(filepath))
             {
@@ -45,6 +45,11 @@ namespace CsvAccess.core.Credentials
                 string key = split[0].Trim();
                 string value = split[1].Trim();
 
+                if (string.IsNullOrEmpty(value))
+                {
+                    continue;
+                }
+
                 switch (key)
                 {
                     case PASSWORD_KEY:
@@ -54,9 +59,6 @@ namespace CsvAccess.core.Credentials
                     case DATABASE_KEY:
                     case SCHEMA_KEY:
                         valueByCredentials.Add(key, value);break;
-                    default:
-                        break;
-                        
                 }
             }
             return valueByCredentials;

@@ -1,7 +1,7 @@
 ﻿using CsvAccess.core.Models.Data.Columns;
 using CsvAccess.core.Models.Data.Set;
 using CsvAccess.core.Models.Data.Table;
-using CsvAccess.core.Models.Persistence;
+using CsvAccess.core.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,11 +1,11 @@
 ﻿using CsvAccess.CLI.IO;
-using CsvAccess.core.Models.Persistence;
+using CsvAccess.core.Persistence;
 
 namespace CsvAccess.CLI.Services.Setup;
 
 public interface ServiceSetup
 {
-    DatabaseSystem DatabaseSystem { get; }
+    DatabaseStrategy DatabaseStrategy { get; }
 
     void RegisterServices();
 

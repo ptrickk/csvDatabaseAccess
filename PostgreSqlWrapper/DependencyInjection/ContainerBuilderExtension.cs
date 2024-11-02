@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using CsvAccess.core.Configuration;
 using CsvAccess.core.Credentials;
-using CsvAccess.core.Models.Persistence;
+using CsvAccess.core.Persistence;
 using CsvAccess.core.Table.Columns.Get.ByTable;
 using CsvAccess.core.Table.Data;
 using PostgreSqlWrapper.Connection;
