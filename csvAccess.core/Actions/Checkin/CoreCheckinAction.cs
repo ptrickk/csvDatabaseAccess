@@ -18,7 +18,7 @@ namespace CsvAccess.core.Actions.Checkin
         private readonly ChecksumService _checksumService;
         private readonly DataTableService _dataTableService;
 
-        public bool ConnectionReliant { get; } = true;
+        public bool DatabaseReliant { get; } = true;
 
         public CoreCheckinAction(SessionService sessionService, TableCsvService tableCsvService, ChecksumService checksumService, DataTableService dataTableService)
         {

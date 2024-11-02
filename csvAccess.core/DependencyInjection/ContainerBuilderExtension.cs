@@ -2,6 +2,7 @@
 using CsvAccess.core.Actions.Checkin;
 using CsvAccess.core.Actions.Checkout;
 using CsvAccess.core.Configuration.Credentials;
+using CsvAccess.core.Encryption;
 using CsvAccess.core.Session;
 using CsvAccess.core.Table.Data.Checksum;
 using CsvAccess.core.Table.Data.Csv.Convert;
@@ -17,6 +18,7 @@ namespace CsvAccess.core.DependencyInjection
             builder.RegisterType<CorePathService>().As<PathService>();
             builder.RegisterType<CoreTableCsvService>().As<TableCsvService>();
             builder.RegisterType<CoreChecksumService>().As<ChecksumService>();
+            builder.RegisterType<CoreEncryptionService>().As<EncryptionService>();
             
             builder.RegisterType<CoreCheckinAction>().As<CheckinAction>();
             builder.RegisterType<CoreCheckoutAction>().As<CheckoutAction>();

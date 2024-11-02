@@ -2,6 +2,6 @@
 
 public interface Action
 {
-    public bool ConnectionReliant { get; }
+    public bool DatabaseReliant { get; }
     public ActionResult Execute(string[] arguments);
 }

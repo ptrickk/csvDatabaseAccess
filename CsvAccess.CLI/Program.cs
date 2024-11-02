@@ -1,16 +1,7 @@
-﻿using Autofac;
-using CsvAccess.CLI.IO;
+﻿using CsvAccess.CLI.IO;
 using CsvAccess.CLI.Services.Action;
 using CsvAccess.CLI.Services.Setup;
 using CsvAccess.core.Actions;
-using CsvAccess.core.Actions.Checkin;
-using CsvAccess.core.Configuration;
-using CsvAccess.core.Configuration.Credentials;
-using CsvAccess.core.DependencyInjection;
-using CsvAccess.core.Models.Persistence;
-using CsvAccess.core.Session;
-using PostgreSqlWrapper.Connection;
-using PostgreSqlWrapper.DependencyInjection;
 using Action = CsvAccess.core.Actions.Action;
 
 namespace CsvAccess.CLI
@@ -38,7 +29,7 @@ namespace CsvAccess.CLI
                 
                 Action action = actionResolver.GetActionFromCommand(command.CommandName);
 
-                if (action.ConnectionReliant)
+                if (action.DatabaseReliant)
                 {
                     Display connectionDisplay = serviceSetup.Connect();
                     connectionDisplay.Show();

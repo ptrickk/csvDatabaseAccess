@@ -1,9 +1,17 @@
 ﻿using CsvAccess.core.Configuration;
+using CsvAccess.core.Encryption;
 
 namespace CsvAccess.core.Credentials
 {
     internal class PostgresCredentialsService : CredentialsService
     {
+        private readonly EncryptionService _encryptionService;
+
+        public PostgresCredentialsService(EncryptionService encryptionService)
+        {
+            _encryptionService = encryptionService;
+        }
+
         public Models.Persistence.Credentials GetCredentials(string filepath)
         {
             if (!File.Exists(filepath))
@@ -11,7 +19,7 @@ namespace CsvAccess.core.Credentials
                 throw new FileNotFoundException(filepath);
             }
 
-            string fileOutput = File.ReadAllText(filepath);
+            string fileOutput = _encryptionService.ContentOfEncryptedFile(filepath);
             var extractedCredentials = ExtractCredentialsFromOutput(fileOutput);
 
             return GetCredentialsFromExtraction(extractedCredentials);

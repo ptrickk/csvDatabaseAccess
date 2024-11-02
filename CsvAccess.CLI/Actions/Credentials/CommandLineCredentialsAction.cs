@@ -2,6 +2,7 @@
 using CsvAccess.core.Actions;
 using CsvAccess.core.Actions.Credentials;
 using CsvAccess.core.Configuration.Credentials;
+using CsvAccess.core.Encryption;
 using CsvAccess.core.Models.Persistence;
 
 namespace CsvAccess.CLI.Actions.Credentials;
@@ -9,10 +10,14 @@ namespace CsvAccess.CLI.Actions.Credentials;
 //TODO implement
 public class CommandLineCredentialsAction : CredentialsAction
 {
-    private readonly PathService _pathService;
-    private readonly ConnectionService _connectionService;
+    private readonly EncryptionService _encryptionService;
 
-    public bool ConnectionReliant { get; } = false;
+    public CommandLineCredentialsAction(EncryptionService encryptionService)
+    {
+        _encryptionService = encryptionService;
+    }
+
+    public bool DatabaseReliant => false;
 
     public ActionResult Execute(string[] arguments)
     {
@@ -33,7 +38,7 @@ public class CommandLineCredentialsAction : CredentialsAction
     {
         var pathService = core.DependencyInjection.Services.Resolve<PathService>();
         string path = pathService.GetCredentialsPath(database);
-        var fileOpener = new FileOpener();
+        var fileOpener = new FileOpener(_encryptionService);
 
         return fileOpener.Open(path);
     }
