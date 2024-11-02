@@ -10,6 +10,7 @@ namespace CsvAccess.CLI
     {
         /// commands:
         /// pg checkout testtable C:\Users\geert\Documents\oktay
+        /// pg checkin C:\Users\geert\Documents\oktay\testtable.csv
         /// pg config
 
         static void Main(string[] args)

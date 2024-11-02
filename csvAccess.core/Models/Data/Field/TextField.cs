@@ -2,10 +2,5 @@
 
 namespace CsvAccess.core.Models.Data.Field
 {
-    public class TextField : DataFieldBase<string>
-    {
-        public TextField(string value, DataColumn column) : base(value, column)
-        {
-        }
-    }
+    public class TextField(string value, DataColumn column) : DataFieldBase<string>(value, column);
 }

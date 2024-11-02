@@ -16,6 +16,10 @@ namespace CsvAccess.core.Table.Data.Csv.Convert.From
                 return null;
             }
 
+            List<string> temp = lines.ToList();
+            temp.Remove("");
+            lines = temp.ToArray();
+
             DataTable? result = new DataTable();
             string header = lines[0];
             string[] content = lines[1..];
@@ -25,7 +29,7 @@ namespace CsvAccess.core.Table.Data.Csv.Convert.From
             return result;
         }
 
-        public List<DataColumn> GetColumnsFromHeader(string header)
+        private List<DataColumn> GetColumnsFromHeader(string header)
         {
             string[] columnDefinitions = header.Split(CsvConstants.COLUMN_SEPERATOR);
             var columns = new List<DataColumn>();
@@ -45,18 +49,14 @@ namespace CsvAccess.core.Table.Data.Csv.Convert.From
                 var dataType = Type.GetType(dataTypeValue);
                 var typeConverter = new TypeToColumnConverter();
 
-                bool isPrimary = false;
-                if (columnType.Equals("p"))
-                {
-                    isPrimary = true;
-                }
+                bool isPrimary = columnType.Equals("p");
 
                 columns.Add(typeConverter.CreateColumn(columnName, dataType, isPrimary));
             }
             return columns;
         }
 
-        public List<DataSet> GetDatasetsFromContent(string[] content, IEnumerable<DataColumn> columns)
+        private List<DataSet> GetDatasetsFromContent(string[] content, IEnumerable<DataColumn> columns)
         {
             var dataSets = new List<DataSet>();
             var columnsList = columns.ToList();

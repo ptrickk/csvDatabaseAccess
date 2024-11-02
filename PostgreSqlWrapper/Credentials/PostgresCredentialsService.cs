@@ -1,5 +1,7 @@
 ﻿using CsvAccess.core.Configuration;
 using CsvAccess.core.Encryption;
+using CsvAccess.core.Persistence;
+using PostgreSqlWrapper;
 
 namespace CsvAccess.core.Credentials
 {
@@ -64,16 +66,16 @@ namespace CsvAccess.core.Credentials
             return valueByCredentials;
         }
 
-        private PostgreSqlWrapper.PostgresCredentials GetCredentialsFromExtraction(Dictionary<string, string> extraction)
+        private PostgresCredentials GetCredentialsFromExtraction(Dictionary<string, string> extraction)
         {
-            return new PostgreSqlWrapper.PostgresCredentials()
+            return new PostgresCredentials()
             {
-                Password = extraction[PASSWORD_KEY],
-                Username = extraction[USERNAME_KEY],
-                Host = extraction[HOST_KEY],
-                Port = extraction[PORT_KEY],
-                Database = extraction[DATABASE_KEY],
-                Schema = extraction[SCHEMA_KEY],
+                Password = extraction.GetValueOrDefault(PASSWORD_KEY),
+                Username = extraction.GetValueOrDefault(USERNAME_KEY),
+                Host = extraction.GetValueOrDefault(HOST_KEY),
+                Port = extraction.GetValueOrDefault(PORT_KEY),
+                Database = extraction.GetValueOrDefault(DATABASE_KEY),
+                Schema = extraction.GetValueOrDefault(SCHEMA_KEY)
             };
         }
     }

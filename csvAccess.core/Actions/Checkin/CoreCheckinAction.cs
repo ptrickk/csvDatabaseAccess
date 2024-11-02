@@ -41,7 +41,15 @@ namespace CsvAccess.core.Actions.Checkin
 
         public ActionResult CheckinTable(string path)
         {
-            var csv = File.ReadAllText(path);
+            string csv;
+            try
+            {
+                csv = File.ReadAllText(path);
+            }
+            catch (IOException)
+            {
+                return CoreActionResult.CreateFailure("File is blocked by another process.");
+            }
 
             IDataTable dataTable = _tableCsvService.FromCsv(csv);
 

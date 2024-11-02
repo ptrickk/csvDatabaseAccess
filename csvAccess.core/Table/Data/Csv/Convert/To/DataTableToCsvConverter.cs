@@ -10,8 +10,6 @@ namespace CsvAccess.core.Table.Data.Csv.Convert.To
         private const char PRIMARY_COLUMN_INDICATOR = 'p';
         private const char BASE_COLUMN_INDICATOR = 'c';
 
-        public DataTableToCsvConverter() { }
-
         public string Convert(IDataTable dataTable)
         {
             string csvTable = string.Empty;

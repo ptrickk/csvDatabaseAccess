@@ -114,7 +114,7 @@ namespace PostgreSqlWrapper.Table.Data
 
         private string FormatField(DataField field)
         {
-            if (field.Column.DataType == typeof(string))
+            if (field.Column.DataType == typeof(string) || field.Column.DataType == typeof(DateTime))
             {
                 return $"\'{field.Value}\'";
             }

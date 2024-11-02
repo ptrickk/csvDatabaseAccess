@@ -22,6 +22,7 @@ namespace PostgreSqlWrapper.Table.Columns
         private const string INTEGER_FIELD_VALUE = "integer";
         private const string DOUBLE_FIELD_VALUE = "numeric";
         private const string STRING_FIELD_VALUE = "text";
+        private const string DATE_FIELD_VALUE = "timestamp without time zone";
 
         public IEnumerable<DataColumn> GetColumns(DatabaseSession session, string tableName)
         {
@@ -79,6 +80,8 @@ namespace PostgreSqlWrapper.Table.Columns
                     return new DecimalColumn() { ColumnName = columnNameField, IsPrimary = isPrimaryKey };
                 case STRING_FIELD_VALUE:
                     return new TextColumn() { ColumnName = columnNameField, IsPrimary = isPrimaryKey };
+                case DATE_FIELD_VALUE:
+                    return new DateColumn() { ColumnName = columnNameField, IsPrimary = isPrimaryKey };
                 default:
                     throw new Exception($"Not supported datatype: {dataTypeField}");
             }

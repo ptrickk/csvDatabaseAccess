@@ -23,6 +23,10 @@ namespace CsvAccess.core.Table.Columns.Create.ByType
             {
                 return new TextColumn() { ColumnName = columnName, IsPrimary = isPrimary };
             }
+            else if (dataType == typeof(DateTime))
+            {
+                return new DateColumn() { ColumnName = columnName, IsPrimary = isPrimary };
+            }
 
             throw new ArgumentException($"Not supported type: {dataType}");
         }

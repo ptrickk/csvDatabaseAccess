@@ -1,23 +1,17 @@
-﻿using CsvAccess.core.Models.Data.Field;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Globalization;
+using CsvAccess.core.Models.Data.Field;
 
 namespace CsvAccess.core.Models.Data.Columns
 {
-    public class DecimalColumn : DataColumn
+    public class DateColumn : DataColumn
     {
-        public Type DataType => typeof(double);
+        public Type DataType => typeof(DateTime);
         public string ColumnName { get; init; }
         public bool IsPrimary { get; init; }
-        
+
         public DataField GetField(object value)
         {
-            return new DecimalField(Convert.ToDouble(value), this);
+            return new DateField(DateTime.Parse(value.ToString(), CultureInfo.CurrentCulture), this);
         }
 
         public int Checksum
@@ -32,7 +26,5 @@ namespace CsvAccess.core.Models.Data.Columns
                 return checksum;
             }
         }
-
-        
     }
 }

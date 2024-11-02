@@ -5,7 +5,7 @@ namespace PostgreSqlWrapper.Connection
 {
     internal class PostgresConnectionService : ConnectionService
     {
-        public DatabaseStrategy DatabaseStrategy { get; }
+        public DatabaseStrategy DatabaseStrategy { get; } = new PostgresStrategy();
 
         public dynamic Connect(dynamic connectionOptions)
         {
@@ -14,12 +14,12 @@ namespace PostgreSqlWrapper.Connection
         
         internal PostgresConnectionResult Connect(PostgresConnectionOptions options)
         {
-            var credentials = PostgresCredentials.Convert(options.Credentials);
-            NpgsqlConnection connection = new NpgsqlConnection(credentials.ConnectionString);
+            PostgresCredentials credentials = PostgresCredentials.Convert(options.Credentials);
+            var connection = new NpgsqlConnection(credentials.ConnectionString);
 
             if(!TryOpenConnection(connection))
             {
-                return PostgresConnectionResult.CreateFailure("Connection failed");
+                return PostgresConnectionResult.CreateFailure("Connection failed.");
             }
 
             return PostgresConnectionResult.CreateSuccess(new PostgresSession(connection, credentials));

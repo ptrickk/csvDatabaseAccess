@@ -2,10 +2,5 @@
 
 namespace CsvAccess.core.Models.Data.Field
 {
-    public class DecimalField : DataFieldBase<double>
-    {
-        public DecimalField(double value, DataColumn column) : base(value, column)
-        {
-        }
-    }
+    public class DecimalField(double value, DataColumn column) : DataFieldBase<double>(value, column);
 }
